@@ -26,6 +26,7 @@ Linked the savings_savingsaccount table to pull in total_deposit amounts for eac
 	Used HAVING clause to ensure the customer has at least 1 savings plan and exactly 1 investment plan.
 
 ------------------------------------------------------------------------------------------------------------------------------------------
+
 ASSESSMENT_Q2
 
 Objective:
@@ -54,9 +55,10 @@ Approach:
 	Also calculated the average transaction rate within each category for deeper insights.
 
 Challenges and How I Resolved Them:
-	The only major challenge i had was getting the monthly-level and year-level aggregations and accurately aggregating them without using too complex queries which i did by: Using both EXTRACT(YEAR...) and EXTRACT(MONTH...) to correctly bucket monthly transactions.
-					  And averaged the monthly counts after aggregation, which normalized behavior over time.
+	The only major challenge i had was getting the monthly-level and year-level aggregations and accurately aggregating them without using too complex queries which i did by: Using both EXTRACT(YEAR...) and EXTRACT(MONTH...) to correctly bucket monthly transactions after which i averaged the monthly counts after aggregation, which normalized behavior over time.
+       
 ------------------------------------------------------------------------------------------------------------------------------------------
+
 ASSESSMENT_Q3
 
 Objective:
@@ -79,7 +81,9 @@ Step-by-Step Logic:
 Challenges and How I Resolved Them:
 	major challenge was figuring out what to do with the nulls, do i add them or not? well from a business perspective, the goal of this analysis is to identify inactive or dormant accounts — not just those that stopped transacting, but also those that were opened but never funded or used. A NULL transaction_date indicates exactly that.
 
-------------------------------------------------------------------------------------------------------------------------------------------ASSESSMENT_Q4
+------------------------------------------------------------------------------------------------------------------------------------------
+
+ASSESSMENT_Q4
 
 Objective:
 Customer Lifetime Value (CLV) Estimation
@@ -101,4 +105,3 @@ Tables Used:
 		where profit_per_transaction = 0.001 (i.e., 0.1%).
 		I wrapped the tenure_months with NULLIF(..., 0) to avoid division-by-zero errors.
 		after which i sorted the results in descending order of estimated_clv.
-
