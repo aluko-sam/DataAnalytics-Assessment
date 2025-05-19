@@ -8,7 +8,7 @@ Identify customers who have both a savings and an investment plan, calculate the
 
 Tables Used:
 	plans_plan: Contains details about each financial plan, including type indicators and deletion status.
-	savings_savingsaccount: Contains individual savings transactions, including deposit amounts.
+ 	savings_savingsaccount: Contains individual savings transactions, including deposit amounts.
 	users_customuser: Stores user profile data such as first name and last name.
 
 Approach:
