@@ -80,10 +80,7 @@ Step-by-Step Logic:
 	Join Transaction Table: Used a LEFT JOIN to get the last transaction date for each plan (from savings_savingsaccount) via plan_id.
 	Aggregation: Calculated the most recent transaction date for each plan using MAX(s.transaction_date).
 	Calculate Inactivity: Computed inactivity_days as the difference between CURRENT_DATE and the most recent transaction date.
-	Final Filter Using HAVING:
- 
-		Included plans with no transactions at all (MAX(...) IS NULL).
-		Or those where the last transaction was over 365 days ago.
+	Final Filter Using HAVING - Included plans with no transactions at all (MAX(...) IS NULL) Or those where the last transaction was over 365 days ago.
 
 Challenges and How I Resolved Them:
 	major challenge was figuring out what to do with the nulls, do i add them or not? well from a business perspective, the goal of this analysis is to identify inactive or dormant accounts — not just those that stopped transacting, but also those that were opened but never funded or used. A NULL transaction_date indicates exactly that.
@@ -104,13 +101,7 @@ Tables Used:
  Approach:
  
 1 Data Aggregation
-	I created a CTE named customer_metrics to calculate:
-		tenure_months: Time since signup using TIMESTAMPDIFF
-		total_transactions: Count of transaction records per customer
+	I created a CTE named customer_metrics to calculate: (tenure_month) Time since signup using TIMESTAMPDIFF and (total_transactions) Count of transaction records per customer
 
 2 CLV Calculation
-	I applied the given formula:
-		CLV = (total_transactions / tenure_months) * 12 * profit_per_transaction
-		where profit_per_transaction = 0.001 (i.e., 0.1%).
-		I wrapped the tenure_months with NULLIF(..., 0) to avoid division-by-zero errors.
-		after which i sorted the results in descending order of estimated_clv.
+	I applied the given formula: CLV = (total_transactions / tenure_months) * 12 * profit_per_transaction, where profit_per_transaction = 0.001 (i.e., 0.1%). after which i wrapped the tenure_months with NULLIF(..., 0) to avoid division-by-zero errors, there after sorted the results in descending order of estimated_clv.
