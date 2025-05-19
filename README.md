@@ -4,6 +4,7 @@ Objective:
 Identify customers who have both a savings and an investment plan, calculate their total savings deposits, and sort them by deposit value to find high-value customers.
 
 Tables Used:
+
 	plans_plan: Contains details about each financial plan, including type indicators and deletion status.
 	savings_savingsaccount: Contains individual savings transactions, including deposit amounts.
 	users_customuser: Stores user profile data such as first name and last name.
@@ -37,10 +38,12 @@ The goal is to analyze customer transaction behavior by calculating the average 
 -Low Frequency: ≤ 2 transactions/month
 
 Tables Used:
+
 	savings_savingsaccount: Contains transaction details, including owner_id and transaction_date.
 	users_customuser (referenced indirectly if needed): May be used to enrich user data such as names or signup dates.
 
 Approach:
+
 1 Monthly Transaction Count per User:
 	Extracted YEAR and MONTH from the transaction_date in savings_savingsaccount.
 	Counted how many transactions each user had per month using COUNT(*).
@@ -66,16 +69,19 @@ Objective:
 The operations team requested a report on active savings or investment accounts that have not had any inflow transactions in the past 365 days. This allows them to identify dormant accounts that might need customer engagement or intervention.
 
 Table Used:
+
 	plans_plan: Contains metadata about accounts (type, status).
 	savings_savingsaccount: Contains the actual transactions associated with each plan.
 
 Approach:
+
 Step-by-Step Logic:
 	Filter Plans: I selected only active plans (is_deleted = 0) and those that are either fixed investment or regular savings.
 	Join Transaction Table: Used a LEFT JOIN to get the last transaction date for each plan (from savings_savingsaccount) via plan_id.
 	Aggregation: Calculated the most recent transaction date for each plan using MAX(s.transaction_date).
 	Calculate Inactivity: Computed inactivity_days as the difference between CURRENT_DATE and the most recent transaction date.
 	Final Filter Using HAVING:
+ 
 		Included plans with no transactions at all (MAX(...) IS NULL).
 		Or those where the last transaction was over 365 days ago.
 
@@ -91,10 +97,12 @@ Customer Lifetime Value (CLV) Estimation
 Marketing wants to estimate how valuable each customer is by combining account tenure and transaction volume. This helps prioritize users for marketing and retention strategies.
 
 Tables Used:
+
 	users_customuser: To get customer details and account creation date.
 	savings_savingsaccount: To count transactions per customer.
 
  Approach:
+ 
 1 Data Aggregation
 	I created a CTE named customer_metrics to calculate:
 		tenure_months: Time since signup using TIMESTAMPDIFF
