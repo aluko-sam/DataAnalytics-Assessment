@@ -9,6 +9,7 @@ Tables Used:
 	users_customuser: Stores user profile data such as first name and last name.
 
 Approach:
+
 1 Identify Plan Types: 
 	Used the plans_plan table to distinguish savings plans (is_regular_savings = 1) and investment plans (is_fixed_investment = 1). Filtered out any deleted plans using is_deleted = 0.
 
